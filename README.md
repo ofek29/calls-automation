@@ -4,7 +4,7 @@
 
 An intelligent, automated system for processing Hebrew mortgage advice call recordings. Built on MAKE platform, this solution transcribes calls, extracts structured data, and delivers actionable insights to call center managers.
 
-### Key Features
+## Key Features
 
 -  **Hebrew Language Support** - Native Hebrew transcription and analysis
 -  **ASR System** - OpenAI Whisper with Google Speech-to-Text fallback
@@ -13,7 +13,7 @@ An intelligent, automated system for processing Hebrew mortgage advice call reco
 -  **Confidence Scoring** - Every extracted field includes a confidence score (0.0-1.0)
 -  **Error Handling** - Comprehensive retry logic and fallback mechanisms
 
-### What It Does
+## What It Does
 
 1. **Receives** audio files from your call center system
 2. **Transcribes** Hebrew speech with speaker identification (agent vs. client)
@@ -33,18 +33,18 @@ An intelligent, automated system for processing Hebrew mortgage advice call reco
 
 The system implements a **dual-ASR strategy** to ensure reliable transcription even with challenging audio quality:
 
-**Primary Route: OpenAI Whisper**
+#### Primary Route: OpenAI Whisper
 - First attempt uses OpenAI Whisper API (excellent Hebrew support)
 - Calculates overall confidence score from segment-level scores
 - Threshold: confidence ≥ 0.75 proceeds to analysis
 
-**Fallback Route: Google Speech-to-Text**
+#### Fallback Route: Google Speech-to-Text
 - Automatically triggered when Whisper confidence < 0.65
 - Uses Google Cloud Speech-to-Text API with Hebrew language pack
 - Provides alternative transcription with different acoustic models
 - System selects the higher-confidence transcription
 
-**Decision Flow:**
+#### Decision Flow:
 ```
 Audio → Whisper Transcription → Confidence Check
                                       ↓
@@ -59,10 +59,9 @@ Audio → Whisper Transcription → Confidence Check
                                             Use Best Result
 ```
 
+## Documentation
 
-### Documentation
-
-##  Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -70,7 +69,6 @@ Audio → Whisper Transcription → Confidence Check
 -  OpenAI API key with credits
 -  Google cloud API key
 -  Email account 
-
 
 ### Deployment Steps
 
@@ -85,7 +83,6 @@ Audio → Whisper Transcription → Confidence Check
    - Add API keys (OpenAI, Google, Dropbox)
    - Configure email addresses
 
-
 4. **Test**
 
    - Send test audio file to storage
@@ -96,12 +93,38 @@ Audio → Whisper Transcription → Confidence Check
    - Toggle scenario to ON
    - Integrate with your call center system
 
-
-
-##  System Architecture
+## System Architecture
 
 ```
 Call Center →  Audio Storage → Transcription (Whisper/Google)
 → LLM Analysis (GPT-4) → Validation → Storage → Notifications (Email)
 ```
 
+## Future Improvements
+
+### Tiered LLM Processing
+
+**Smart Model Selection Based on Complexity**
+- Route simple, straightforward calls to faster, cheaper language models
+- Escalate complex scenarios (multiple objections, compliance concerns) to premium models
+- Implement confidence-based routing: if initial analysis has low confidence, retry with more capable model
+
+### Database Migration
+
+**Calls and data storage**
+- Migrate to proper database for structured call data
+- Implement cloud storage for audio files
+
+### CRM Integration
+
+**Seamless Data Flow to Sales Systems**
+- Auto-sync extracted call data directly into your CRM
+- Bidirectional sync: pull customer context before call, push insights after
+- Automated task creation for follow-ups based on extracted action items
+
+### Enhanced Audio Processing
+
+**Pre-Processing Pipeline**
+- **Noise Reduction**: Remove background noise before transcription
+- **Format Conversion**: Optimize audio format for ASR (16kHz mono WAV)
+- **Silence Trimming**: Remove long pauses to reduce processing time and costs
